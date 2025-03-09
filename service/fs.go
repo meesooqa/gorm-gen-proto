@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gorm-gen-proto-01/config"
+	"github.com/meesooqa/gorm-gen-proto/config"
 )
 
 type FS struct {

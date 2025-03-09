@@ -1,7 +1,7 @@
 package service
 
 import (
-	"gorm-gen-proto-01/config"
+	"github.com/meesooqa/gorm-gen-proto/config"
 )
 
 type GormProtoDataProvider struct {

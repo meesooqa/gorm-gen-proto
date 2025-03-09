@@ -9,8 +9,8 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"gorm-gen-proto-01/config"
-	"gorm-gen-proto-01/service"
+	"github.com/meesooqa/gorm-gen-proto/config"
+	"github.com/meesooqa/gorm-gen-proto/service"
 )
 
 type Proto3Generator struct {

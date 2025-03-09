@@ -8,8 +8,8 @@ import (
 	"reflect"
 	"text/template"
 
-	"gorm-gen-proto-01/config"
-	"gorm-gen-proto-01/gen"
+	"github.com/meesooqa/gorm-gen-proto/config"
+	"github.com/meesooqa/gorm-gen-proto/gen"
 )
 
 var conf *config.Conf

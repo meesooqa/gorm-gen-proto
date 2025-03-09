@@ -1,4 +1,4 @@
-module gorm-gen-proto-01
+module github.com/meesooqa/gorm-gen-proto
 
 go 1.23.0
 

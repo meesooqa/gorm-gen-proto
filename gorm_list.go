@@ -1,8 +1,8 @@
 package main
 
 import (
-	"gorm-gen-proto-01/example/models"
-	"gorm-gen-proto-01/gen"
+	"github.com/meesooqa/gorm-gen-proto/example/models"
+	"github.com/meesooqa/gorm-gen-proto/gen"
 )
 
 func GetGormList() []*gen.GormForTmpl {
