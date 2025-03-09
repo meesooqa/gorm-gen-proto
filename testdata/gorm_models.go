@@ -1,4 +1,4 @@
-package gorm
+package testdata
 
 import (
 	"database/sql"

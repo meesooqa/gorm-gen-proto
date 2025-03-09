@@ -2,31 +2,33 @@ package gen
 
 import (
 	"log/slog"
+	"os"
+	"path/filepath"
 	"reflect"
+	"text/template"
 	"unicode"
 	"unicode/utf8"
 
 	"gorm-gen-proto-01/config"
+	"gorm-gen-proto-01/service"
 )
 
-type GormForTmpl struct {
-	model    any
-	Package  string
-	Endpoint string
+type Proto3Generator struct {
+	conf      *config.SystemConfig
+	templates *template.Template
 }
 
-func NewGormForTmpl(model any, pkg, ep string) *GormForTmpl {
-	return &GormForTmpl{
-		model:    model,
-		Package:  pkg,
-		Endpoint: ep,
-	}
+type GormForTmpl struct {
+	model         any
+	ProtoFilePath string
+	Package       string
+	Endpoint      string
 }
 
 type Proto3TmplDataBuilder struct {
 	logger        *slog.Logger
 	data          *Proto3TmplData
-	dataProvider  *GormProtoDataProvider
+	dataProvider  *service.GormProtoDataProvider
 	gormModel     any
 	minModelField int
 }
@@ -47,18 +49,67 @@ type ProtoField struct {
 	Options string
 }
 
-func NewProto3TmplDataBuilder(logger *slog.Logger, conf *config.Conf, gormModelForBuilder *GormForTmpl) *Proto3TmplDataBuilder {
+func NewProto3Generator(conf *config.SystemConfig, templates *template.Template) *Proto3Generator {
+	return &Proto3Generator{
+		conf:      conf,
+		templates: templates,
+	}
+}
+
+func NewGormForTmpl(model any, pkg, ep string) *GormForTmpl {
+	return &GormForTmpl{
+		model:         model,
+		ProtoFilePath: "",
+		Package:       pkg,
+		Endpoint:      ep,
+	}
+}
+
+func NewProto3TmplDataBuilder(logger *slog.Logger, conf *config.SystemConfig, gormForTmpl *GormForTmpl) *Proto3TmplDataBuilder {
 	return &Proto3TmplDataBuilder{
 		logger:        logger,
-		dataProvider:  NewGormProtoDataProvider(logger, conf.System),
-		gormModel:     gormModelForBuilder.model,
+		dataProvider:  service.NewGormProtoDataProvider(conf),
+		gormModel:     gormForTmpl.model,
 		minModelField: 1,
 		data: &Proto3TmplData{
 			ApiVersion: "v1",
-			Package:    gormModelForBuilder.Package,
-			Endpoint:   gormModelForBuilder.Endpoint,
+			Package:    gormForTmpl.Package,
+			Endpoint:   gormForTmpl.Endpoint,
 		},
 	}
+}
+
+func (o *GormForTmpl) GetProtoFilePath(conf *config.SystemConfig) string {
+	if o.ProtoFilePath != "" {
+		return o.ProtoFilePath
+	}
+	fs := service.NewFS(conf)
+	return fs.GetProtoFilePath(o.Package, o.Package)
+}
+
+func (o *Proto3Generator) Run(logger *slog.Logger, gm *GormForTmpl) error {
+	// template data
+	tmplData := NewProto3TmplDataBuilder(logger, o.conf, gm)
+	data, err := tmplData.ProvideData()
+	if err != nil {
+		return err
+	}
+	// create file
+	protoFilePath := gm.GetProtoFilePath(o.conf)
+	dir := filepath.Dir(protoFilePath)
+	if err = os.MkdirAll(dir, 0755); err != nil {
+		return err
+	}
+	file, err := os.Create(protoFilePath)
+	if err != nil {
+		return err
+	}
+	// write
+	err = o.templates.ExecuteTemplate(file, "proto3.tmpl", data)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (o *Proto3TmplDataBuilder) ProvideData() (*Proto3TmplData, error) {
