@@ -9,7 +9,6 @@ import (
 	"text/template"
 
 	"gorm-gen-proto-01/config"
-	"gorm-gen-proto-01/example/models"
 	"gorm-gen-proto-01/gen"
 )
 
@@ -40,13 +39,7 @@ func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
 	logger.Info("begin")
 
-	gg := []*gen.GormForTmpl{
-		gen.NewGormForTmpl(models.BaseTypes{}, "basepb", "bases"),
-		gen.NewGormForTmpl(models.SetTypes{}, "setpb", "sets"),
-		gen.NewGormForTmpl(models.StructTypes{}, "structpb", "structs"),
-		gen.NewGormForTmpl(models.SpecialTypes{}, "specialpb", "specials"),
-	}
-
+	gg := GetGormList()
 	// generate proto files
 	pg := gen.NewProto3Generator(conf.System, templates)
 	for _, g := range gg {
