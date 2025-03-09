@@ -24,3 +24,8 @@ And add your package to import section:
 ```go
 import _ "github.com/meesooqa/gorm-gen-proto/example"
 ```
+
+6. Run
+```bash
+go run ./main.go
+```
