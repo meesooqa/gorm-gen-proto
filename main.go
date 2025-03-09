@@ -41,14 +41,20 @@ func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
 	logger.Info("begin")
 
-	gms := []*gen.GormForTmpl{
+	// generate proto files
+	gg := []*gen.GormForTmpl{
 		gen.NewGormForTmpl(gorm.BaseTypes{}, "basepb", "bases"),
 		gen.NewGormForTmpl(gorm.SetTypes{}, "setpb", "sets"),
 		gen.NewGormForTmpl(gorm.StructTypes{}, "structpb", "structs"),
 		gen.NewGormForTmpl(gorm.SpecialTypes{}, "specialpb", "specials"),
 	}
-	for _, gm := range gms {
-		generateProto(logger, gm)
+	for _, g := range gg {
+		generateProto(logger, g)
+	}
+	// generate go files by `protoc`
+	pe := gen.NewProtocExecutor()
+	for _, g := range gg {
+		pe.Run(g.Package, g.Package)
 	}
 
 	logger.Info("end")
