@@ -41,22 +41,33 @@ func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
 	logger.Info("begin")
 
-	gg := reg.GetRegistry()
+	//gg := reg.GetGormDataRegistry()
 	// generate proto files
-	pg := gen.NewProto3Generator(conf.System, templates)
-	for _, g := range gg {
-		err := pg.Run(logger, g)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
+	//pg := gen.NewProto3Generator(conf.System, templates)
+	//for _, g := range gg {
+	//	err := pg.Run(logger, g)
+	//	if err != nil {
+	//		log.Fatal(err)
+	//	}
+	//}
 	// generate go files by `protoc`
-	pe := gen.NewProtocExecutor()
-	for _, g := range gg {
-		protoFilePath := g.GetProtoFilePath(conf.System)
-		err := pe.Run(conf.System.ProtoRoot, protoFilePath)
-		if err != nil {
-			log.Fatal(err)
+	//pe := gen.NewProtocExecutor()
+	//for _, g := range gg {
+	//	protoFilePath := g.GetProtoFilePath(conf.System)
+	//	err := pe.Run(conf.System.ProtoRoot, protoFilePath)
+	//	if err != nil {
+	//		log.Fatal(err)
+	//	}
+	//}
+	// generate service servers files
+	ss := reg.GetSsDataRegistry()
+	ssg := gen.NewServiceServerGenerator(conf.System, templates)
+	if len(ss) > 0 {
+		for _, data := range ss {
+			err := ssg.Run(data)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
 
