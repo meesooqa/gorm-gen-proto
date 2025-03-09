@@ -19,6 +19,8 @@ func NewProtocExecutor() *ProtocExecutor {
 }
 
 /*
+	if "pb/proto/{{.Package}}/{{.Package}}.proto"
+	then we should run
 	```bash
 	cd ./pb/proto/{{.Package}}
 	protoc -I. -I../ \
