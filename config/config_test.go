@@ -13,6 +13,7 @@ func TestLoad(t *testing.T) {
 	assert.IsType(t, &SystemConfig{}, c.System)
 	assert.Equal(t, "var/data/maps", c.System.PathMaps)
 	assert.Equal(t, "var/data/templates", c.System.PathTmpl)
+	assert.Equal(t, "pb/proto", c.System.ProtoRoot)
 }
 
 func TestLoadConfigNotFoundFile(t *testing.T) {

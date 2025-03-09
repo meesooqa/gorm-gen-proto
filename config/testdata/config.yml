@@ -1,3 +1,4 @@
 system:
   path_maps: "var/data/maps"
   path_tmpl: "var/data/templates"
+  proto_root: "pb/proto"
