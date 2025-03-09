@@ -9,7 +9,9 @@ import (
 	"text/template"
 
 	"github.com/meesooqa/gorm-gen-proto/config"
+	_ "github.com/meesooqa/gorm-gen-proto/example"
 	"github.com/meesooqa/gorm-gen-proto/gen"
+	"github.com/meesooqa/gorm-gen-proto/reg"
 )
 
 var conf *config.Conf
@@ -39,7 +41,7 @@ func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
 	logger.Info("begin")
 
-	gg := GetGormList()
+	gg := reg.GetRegistry()
 	// generate proto files
 	pg := gen.NewProto3Generator(conf.System, templates)
 	for _, g := range gg {
