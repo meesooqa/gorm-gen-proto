@@ -9,8 +9,8 @@ import (
 	"text/template"
 
 	"gorm-gen-proto-01/config"
+	"gorm-gen-proto-01/example/models"
 	"gorm-gen-proto-01/gen"
-	"gorm-gen-proto-01/testdata"
 )
 
 var conf *config.Conf
@@ -41,10 +41,10 @@ func main() {
 	logger.Info("begin")
 
 	gg := []*gen.GormForTmpl{
-		gen.NewGormForTmpl(testdata.BaseTypes{}, "basepb", "bases"),
-		gen.NewGormForTmpl(testdata.SetTypes{}, "setpb", "sets"),
-		gen.NewGormForTmpl(testdata.StructTypes{}, "structpb", "structs"),
-		gen.NewGormForTmpl(testdata.SpecialTypes{}, "specialpb", "specials"),
+		gen.NewGormForTmpl(models.BaseTypes{}, "basepb", "bases"),
+		gen.NewGormForTmpl(models.SetTypes{}, "setpb", "sets"),
+		gen.NewGormForTmpl(models.StructTypes{}, "structpb", "structs"),
+		gen.NewGormForTmpl(models.SpecialTypes{}, "specialpb", "specials"),
 	}
 
 	// generate proto files
