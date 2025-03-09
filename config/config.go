@@ -13,9 +13,10 @@ type Conf struct {
 
 // SystemConfig is the configuration for App
 type SystemConfig struct {
-	PathMaps  string `yaml:"path_maps"`
-	PathTmpl  string `yaml:"path_tmpl"`
-	ProtoRoot string `yaml:"proto_root"`
+	PathMaps     string `yaml:"path_maps"`
+	PathTmpl     string `yaml:"path_tmpl"`
+	ProtoRoot    string `yaml:"proto_root"`
+	ServicesRoot string `yaml:"services_root"`
 }
 
 // Load config from file

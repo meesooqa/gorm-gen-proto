@@ -14,6 +14,7 @@ func TestLoad(t *testing.T) {
 	assert.Equal(t, "var/data/maps", c.System.PathMaps)
 	assert.Equal(t, "var/data/templates", c.System.PathTmpl)
 	assert.Equal(t, "pb/proto", c.System.ProtoRoot)
+	assert.Equal(t, "pb/services", c.System.ServicesRoot)
 }
 
 func TestLoadConfigNotFoundFile(t *testing.T) {
