@@ -1,10 +1,6 @@
 package {{.Package}}
 
-{{if notEmpty .Imports}}
-    {{- range $_, $pkg := .Imports}}
-    {{$pkg}}
-    {{- end -}}
-{{- end}}
+import pb "{{.ImportPb}}"
 
 type Converter struct{}
 

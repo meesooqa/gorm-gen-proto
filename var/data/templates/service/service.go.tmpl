@@ -8,11 +8,9 @@ import (
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 
-{{if notEmpty .Imports}}
-    {{- range $_, $pkg := .Imports}}
-    {{$pkg}}
-    {{- end -}}
-{{- end}}
+	"{{.ImportModels}}"
+	pb "{{.ImportPb}}"
+	"{{.ImportServices}}"
 )
 
 type DbModel = {{.DbModel}}

@@ -3,11 +3,8 @@ package {{.Package}}
 import (
 	"context"
 
-{{if notEmpty .Imports}}
-    {{- range $_, $pkg := .Imports}}
-    {{$pkg}}
-    {{- end -}}
-{{- end}}
+	pb "{{.ImportPb}}"
+	"{{.ImportServices}}"
 )
 
 func (o *ServiceServer) GetItem(ctx context.Context, req *pb.GetItemRequest) (*pb.GetItemResponse, error) {
