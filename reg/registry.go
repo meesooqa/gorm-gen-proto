@@ -2,12 +2,21 @@ package reg
 
 import "github.com/meesooqa/gorm-gen-proto/gen"
 
-var registry []*gen.GormForTmpl
+var gormDataRegistry []*gen.GormForTmpl
+var ssDataRegistry []*gen.SsTmplData
 
-func Register(models []*gen.GormForTmpl) {
-	registry = append(registry, models...)
+func RegisterGormData(data []*gen.GormForTmpl) {
+	gormDataRegistry = append(gormDataRegistry, data...)
 }
 
-func GetRegistry() []*gen.GormForTmpl {
-	return registry
+func GetGormDataRegistry() []*gen.GormForTmpl {
+	return gormDataRegistry
+}
+
+func RegisterSsData(data []*gen.SsTmplData) {
+	ssDataRegistry = append(ssDataRegistry, data...)
+}
+
+func GetSsDataRegistry() []*gen.SsTmplData {
+	return ssDataRegistry
 }
